@@ -143,8 +143,13 @@ in conclusion below is the database showing all the 3 created tables,
 
 <img width="1341" height="632" alt="database tables" src="https://github.com/user-attachments/assets/f03aea73-022f-4007-bda7-c96a3d811b8c" />
 
+WINDOW FUNCTION IMPLEMENTATION.
 
-
+This will include four Categories
+* Ranking.
+* Aggregate.
+* Navigation.
+* Distribution.
 
 ## SQL Queries
 (Add your SQL queries here with explanations)
