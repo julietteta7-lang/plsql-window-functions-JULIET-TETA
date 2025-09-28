@@ -52,29 +52,39 @@ CREATE TABLE customers (
 );
 ![CUSTOMER DETAILS](https://github.com/user-attachments/assets/ff9b6998-5a1d-4bbf-a66a-35628c2010ac)
 
-KET TERMS uUSED EXPLAINED;
+KEY TERMS USED EXPLAINED;
 
 *INT - Means the column will only store whole numbers (like 1, 2, 3).
+
 *AUTO_INCREMENT - The number goes up by itself each time you add a new row (1, 2, 3, …). You don’t need to type it.
+
 *PRIMARY KEY - This column is the main ID for the table. It makes each row unique (no two rows can have the same ID).
+
 *VARCHAR(100) → means the column stores text (like names, emails, cities). The 100 means it can hold up to 100 characters.
+
 *NOT NULL → means this column cannot be left empty. You must put something there.
 
 Below is an example row for the customers table (codes).
 
-INSERT INTO customers (customer_id, name, region)
+INSERT INTO customers (customer_id, name, region).
+
 VALUES (1001, 'John Doe', 'Kigali');
+
 ![CUSTOMER EXAMPLE](https://github.com/user-attachments/assets/5a148c5d-985e-42ec-9619-154af34b8567)
 
 
 KEY TERMS USED EXPLAINED;
 
 INSERT INTO customers (...) - tells the database we are putting new data into the customers table.
+
 (customer_id, name, region) - lists the columns where the data will go.
+
 VALUES (1001, 'John Doe', 'Kigali') - gives the actual data: the customer ID is 1001, the name is John Doe, and the region is Kigali
 
 TABLE 2;
-PRODUCTS 
+
+PRODUCTS
+
 * purpose (Product Catalog )
 * Key Columns (Product_id(PK), name, category).
 * Example Row ( 2001, coffee beans, beverages).
@@ -101,6 +111,7 @@ VALUES (2001, 'Coffee Beans', 'Beverages');
 This image shows that the information of the example row have been successfully inserted.
 
 TABLE 3
+
 TRANSCATIONS
 
 * purpose ( Sales Records)
