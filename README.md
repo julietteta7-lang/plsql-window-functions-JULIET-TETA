@@ -146,13 +146,127 @@ in conclusion below is the database showing all the 3 created tables,
 WINDOW FUNCTION IMPLEMENTATION.
 
 This will include four Categories
-* Ranking.
-* Aggregate.
-* Navigation.
-* Distribution.
+
+* Ranking:
+(ROW_NUMBER(), RANK(), DENSE_RANK(), PERCENT_RANK())
+
+* Aggregate:
+(SUM(), AVG(), MIN(), MAX() with frame comparisons (ROWS vs RANGE)).
+
+
+* . Navigation:
+(LAG(), LEAD(), growth % calculation).
+
+
+* Distribution:
+(NTILE(4), CUME_DIST()).
+
+
+Using these functions i am going to provide Queries that i wrote using this functions showing the codes used and the output i was given 
 
 ## SQL Queries
-(Add your SQL queries here with explanations)
+
+1. RANKING
+<img width="1108" height="494" alt="Ranking Query Results" src="https://github.com/user-attachments/assets/e030024d-152f-4bff-856f-340be3e68f9f" />
+
+COMMENT:
+The ranking functions worked well. ROW_NUMBER(), RANK(), DENSE_RANK(), and PERCENT_RANK() gave correct ranks to customers based on their total revenue. This helps to see who the top customers are and how they compare to each other.
+
+BELOW ARE THE CODES USED IN THE CREATION OF THE QUERY;
+
+<img width="1350" height="664" alt="Ranking query" src="https://github.com/user-attachments/assets/cee1051d-7119-4969-b68e-0b671aa073b3" />
+
+INTERPRETATION:
+The results show that ROW_NUMBER() gave each customer a unique number in order, RANK() gave the same rank to customers with equal revenue but left gaps, and DENSE_RANK() gave the same rank without gaps. PERCENT_RANK() showed each customer’s rank as a percentage of the total. This matches the expected outcome and clearly shows the order and position of customers based on total revenue.
+
+2. AGGREGATE
+
+The query will show each month’s post views along with a growing total up to that month.
+
+<img width="1100" height="424" alt="AGGREGATE RESULTS" src="https://github.com/user-attachments/assets/eeb8ebf8-9a59-4bc3-9a95-89bc423912d0" />
+
+Comment:
+The aggregate functions worked as expected. In the query results, SUM() correctly showed the total revenue for each customer, AVG() showed the average revenue, MIN() showed the smallest sale amount, and MAX() showed the largest sale. This helps to understand customer performance and trends clearly.
+
+BELOW ARE THE CODE USED IN THE CREATION OF THE QUERY;
+
+SELECT 
+
+    t.customer_id,
+    
+    c.name AS customer_name,
+    
+    t.sale_date,
+    
+    t.amount,
+    
+    SUM(t.amount) OVER (
+    
+        PARTITION BY t.customer_id
+        
+        ORDER BY t.sale_date
+        
+    ) AS running_total,
+    
+    AVG(t.amount) OVER (
+    
+        PARTITION BY t.customer_id
+        
+        ORDER BY t.sale_date
+        
+    ) AS moving_avg,
+    
+    MIN(t.amount) OVER (PARTITION BY t.customer_id) AS min_sale,
+    
+    MAX(t.amount) OVER (PARTITION BY t.customer_id) AS max_sale
+    
+FROM transactions t
+
+JOIN customers c ON t.customer_id = c.customer_id
+
+ORDER BY t.customer_id, t.sale_date;
+
+
+INTERPRETATION;
+The results show SUM() gave the total revenue for each customer, AVG() gave the average revenue, MIN() showed the smallest revenue, and MAX() showed the largest revenue. This is what we expected and clearly shows how each customer is doing.
+
+3. NAVIGATION
+
+The query will show this month’s views and last month’s views side by side. From there, you can calculate the difference to see if the views went up or down compared to the previous month.
+
+<img width="1109" height="342" alt="NAVIGATION RESULTS" src="https://github.com/user-attachments/assets/8508afe8-11fb-4476-a744-c6c914bd1e9b" />
+
+Comment:
+The navigation functions worked well. LAG() showed the previous revenue value and LEAD() showed the next revenue value for each customer. NULL appears because there is no previous or next row to show.
+
+BELOW ARE THE CODE USED IN THE CREATION OF THE QUERY;
+
+<img width="1323" height="611" alt="NAVIGATION CODES" src="https://github.com/user-attachments/assets/4b1e9f5c-8e6a-43f2-b74c-1023749f3753" />
+
+Interpretation:
+
+The results show LAG() gave the revenue from the row before and LEAD() gave the revenue from the row after. NULL appears for the first row in LAG() and the last row in LEAD() because there is no row to check/show. This matches what we expected and clearly shows revenue changes.
+
+4. DISTRIBUTION
+
+The query is made to split readers into 4 equal groups based on their activity (like total amounts or actions), But because there is only one customer, it can’t split into 4 groups properly. The single customer was put into Group 1 by default, and more customers are needed for real grouping.
+
+<img width="1121" height="410" alt="distribution results" src="https://github.com/user-attachments/assets/eaf71b58-1ae3-4b88-9e11-5629d57a45a2" />
+
+COMMENT:
+The window functions work well and give correct rankings and total calculations without losing any information. They help compare data in different groups, handle ties in ranking correctly, and show useful trends like top performers and running totals. This makes the analysis clear, useful, and good for real business decisions.
+
+
+<img width="1347" height="642" alt="distribution code" src="https://github.com/user-attachments/assets/f42a7653-1716-4b86-904c-ea5477cb0715" />
+
+INTERPRETATION:
+The result shows that the query ran correctly but could not split readers into 4 groups because there is only one customer. The single customer was placed in Group 1 by default. This means more customers with activity data are needed to make meaningful group comparisons.
+
+ENDING REMARK:
+
+The window function work was successful and showed that each type works well. Ranking functions correctly ordered and compared customers, aggregate functions calculated totals and averages clearly, navigation functions showed previous and next values, and distribution functions showed grouping ideas. Even though the distribution function could not split into four groups because there is only one customer, the queries gave correct results for the data available. Overall, this shows that window functions are useful for data analysis.
+
+
 
 ## Results
 (Add screenshots or summaries of your results here)
