@@ -1,43 +1,44 @@
-# Business Analytics with PL/SQL
+ Business Analytics with PL/SQL
 
-## Objective
+ Objective
 This project shows how to use PL/SQL window functions to solve a real business problem.  
 It uses easy examples to explain how ranking, adding totals, comparing months, grouping customers, and moving averages work.
 
-## Business Context
+ Business Context
 An online make_up store sells make_up cosmetics and other beauty products to customers across different regions. The Marketing team wants to improve sales by understanding which products sell the best and which type of customers buy the most 
 
-## Data Challenge
+ Data Challenge
 The store has many sales, but it is hard to find the best products that attract customers, see the sales growth each month or group customers by how much they spend and their most attractive market.
 
-## Expected Outcome
+ Expected Outcome
 Find the best products in each place, check how much of their products is sold every month, see how sales grow each month and group customers due to their spendings and identify the market attracted the most.
 
-## Project Goals
-1. **Top 5 Products per Region/Quarter** → Use `RANK()`
+ Project Goals
+1. Top 5 Products per Region/Quarter** → Use `RANK()`
 we use RANK() to find the top 5 products in each region and time so the store  knows what sells best. This helps the store make better decision, improve sales planning, understand customer preferences and focus on the most popular products to increase profit for the business and not just rely on what is not selling.
 
 (For example we have foundation, lipstick and lip balm, when RANK() is applied this will help us know the mostly sold out product that customers seem to consume a lot.)
 
-3. **Running Monthly Sales Totals** → Use `SUM() OVER()`
+2. Running Monthly Sales Totals** → Use `SUM() OVER()`
   SUM() OVER() adds sales from each month so we can see how the total grows. This helps the store know how sales change, compare months, plan better, keep enough products and make more money and profits for the business.
 
 For example in;
 ( January we had foundation sales -100,000frw lipstick sales-100,000frw and lip balm sales- 100,000frw total sums up to 300,000frw.   February we had foundation sales-50,000frw, lipstick sales-150,000frw and lip balm sales-150,000frw total sums up to 350,000frw.   In March we have concealer sales-120,000, lip balm sales-200,000frw , cleanser-100,000frw and contour-50,000frw total sums up to 470,000frw.
 This goes on and on for every month we need to know the total sales so there can be comparison of the products and sales per month also has a huge impact in revealing top selling products. )
    
-4. **Month-over-Month Growth** → Use `LAG()` / `LEAD()`
+3. Month-over-Month Growth** → Use `LAG()` / `LEAD()`
 LAG() and LEAD() help us compare sales from one month to the next. LAG() shows the previous month’s sales, and LEAD() shows the next month’s sales. This helps the store see if sales go up or down.
 This is different from SUM() OVER() because SUM() OVER() adds sales month by month to see a running total, while LAG() and LEAD() only compare one month to another. This helps the store plan better.
 For example for LAG() / LEAD(), if January sales are 10, February is 12, and March is 15,LAG() can show February grew by 2 and March grew by 3. LEAD() can show January will grow by 2 in February and February will grow by 3 in March while for `SUM() OVER()` it adds the sales from each month.
  
-5. **Customer Quartiles** → Use `NTILE(4)`
+4. Customer Quartiles** → Use `NTILE(4)`
 `NTILE(4)`is a tool that helps the store split customers into four equal groups based on how much they spend. Group 1 has the lowest spenders and Group 4 has the highest spenders. This helps the store understand customers better and plan marketing. For example, if we have 8 customers who spend $10, $20, $30, $40, $50, $60, $70, and $80 , NTILE(4) will put the lowest spenders in Group 1 and the highest spenders in Group 4.
 
-6. **3-Month Moving Averages** → Use `AVG() OVER()`
+5. 3-Month Moving Averages** → Use `AVG() OVER()`
 `AVG() OVER()` is a tool that helps the store find the average sales over a certain time, such as three months. This is called a moving average. It looks at the current month and the months before it to see the average sales. This helps the store understand sales trends and plan better. For example,  The online makeup store has January sales of 10, February sales of 12, March sales of 15, and April sales of 20, the 3-month average for March will be (10 + 12 + 15) ÷ 3 = 12.33, and for April it will be (12 + 15 + 20) ÷ 3 = 15.67. This helps the store know if sales are increasing or decreasing.
 
-## Database Schema
+ Database Schema.
+ 
 In this category i am going to be showing how i was ables to create three tables using codes i wrote
 The first table was of customers
 * purpose ( Customer Info)
@@ -138,10 +139,23 @@ Now below is the entry done successfully of transcation example row.
 
 ![TRANSCATION EXAMPLE](https://github.com/user-attachments/assets/ef264a48-8db0-497f-bec9-99ffd731739e)
 
-
-in conclusion below is the database showing all the 3 created tables,
+Below is the database showing all the 3 created tables,
 
 <img width="1341" height="632" alt="database tables" src="https://github.com/user-attachments/assets/f03aea73-022f-4007-bda7-c96a3d811b8c" />
+
+
+I now present an Entity Relationship Diagram.
+
+But first let's talk about it before i present it 
+
+in within the diagram i have tables and their attributes they way they are distributed is that each entity has its own and significant attribute that its supposed to have 
+
+A little difference there is on the Transcation entity as we all know it includes the CUSTOMER_ID and PRODUCT_ID which are already attributes to their own entites so since we already have them i connected them to the transcation entity but you will realise that i introduced them as foreign key since they point to their original entities.
+
+So here is the ER Diagram:
+
+<img width="880" height="596" alt="ER Diagram" src="https://github.com/user-attachments/assets/cb7aa40a-0fa0-44dd-bbb7-f43ab0a46f18" />
+
 
 WINDOW FUNCTION IMPLEMENTATION.
 
@@ -164,7 +178,7 @@ This will include four Categories
 
 Using these functions i am going to provide Queries that i wrote using this functions showing the codes used and the output i was given 
 
-## SQL Queries
+ SQL Queries
 
 1. RANKING
 <img width="1108" height="494" alt="Ranking Query Results" src="https://github.com/user-attachments/assets/e030024d-152f-4bff-856f-340be3e68f9f" />
@@ -267,11 +281,22 @@ ENDING REMARK:
 The window function work was successful and showed that each type works well. Ranking functions correctly ordered and compared customers, aggregate functions calculated totals and averages clearly, navigation functions showed previous and next values, and distribution functions showed grouping ideas. Even though the distribution function could not split into four groups because there is only one customer, the queries gave correct results for the data available. Overall, this shows that window functions are useful for data analysis.
 
 
+Results Analysis
+1. Descriptive – What happened?
 
-## Results
-(Add screenshots or summaries of your results here)
+The window functions worked well. Ranking showed the order of customers. Aggregate gave totals, averages, smallest and biggest sales. Navigation showed sales before and after each month. Distribution tried to group customers, but since i had only one customer, it only put them in Group 1 as default and every function depended on only one customer.
 
-## Conclusion
+
+2. Diagnostic – Why did it happen?
+
+These results happened because the queries were written correctly and matched the purpose of each function. Ranking worked well since even one or few customers can be ordered. Aggregates gave useful total because every sale had an amount to calculate. Navigation showed NULL values where no past or next month existed, which is expected behavior. Distribution could not fully work because the dataset was too small—more customers are needed for fair grouping.
+
+3. Prescriptive – What next?
+
+The store should add more customer and sales data. With more data, ranking will show top customers better, aggregates will give clearer results, navigation will show real growth, and distribution will group customers properly. This will help the store plan better and increase sales.
+
+
+Conclusion
 This project shows how PL/SQL window functions helps understand business data, improve sales, and make better marketing decisions for their enterprises.
 
 ---
