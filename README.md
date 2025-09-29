@@ -14,43 +14,60 @@ The store has many sales, but it is hard to find the best products that attract 
 Find the best products in each place, check how much of their products is sold every month, see how sales grow each month and group customers due to their spendings and identify the market attracted the most.
 
  Project Goals
-1. Top 5 Products per Region/Quarter** → Use `RANK()`
+1. Top 5 Products per Region/Quarter- Use `RANK()`.
+
 we use RANK() to find the top 5 products in each region and time so the store  knows what sells best. This helps the store make better decision, improve sales planning, understand customer preferences and focus on the most popular products to increase profit for the business and not just rely on what is not selling.
 
 (For example we have foundation, lipstick and lip balm, when RANK() is applied this will help us know the mostly sold out product that customers seem to consume a lot.)
 
-2. Running Monthly Sales Totals** → Use `SUM() OVER()`
+2. Running Monthly Sales Totals- Use `SUM() OVER()`.
+
   SUM() OVER() adds sales from each month so we can see how the total grows. This helps the store know how sales change, compare months, plan better, keep enough products and make more money and profits for the business.
 
 For example in;
+
 ( January we had foundation sales -100,000frw lipstick sales-100,000frw and lip balm sales- 100,000frw total sums up to 300,000frw.   February we had foundation sales-50,000frw, lipstick sales-150,000frw and lip balm sales-150,000frw total sums up to 350,000frw.   In March we have concealer sales-120,000, lip balm sales-200,000frw , cleanser-100,000frw and contour-50,000frw total sums up to 470,000frw.
 This goes on and on for every month we need to know the total sales so there can be comparison of the products and sales per month also has a huge impact in revealing top selling products. )
    
-3. Month-over-Month Growth** → Use `LAG()` / `LEAD()`
+3. Month-over-Month Growth- Use `LAG()` / `LEAD()`.
+
 LAG() and LEAD() help us compare sales from one month to the next. LAG() shows the previous month’s sales, and LEAD() shows the next month’s sales. This helps the store see if sales go up or down.
 This is different from SUM() OVER() because SUM() OVER() adds sales month by month to see a running total, while LAG() and LEAD() only compare one month to another. This helps the store plan better.
+
 For example for LAG() / LEAD(), if January sales are 10, February is 12, and March is 15,LAG() can show February grew by 2 and March grew by 3. LEAD() can show January will grow by 2 in February and February will grow by 3 in March while for `SUM() OVER()` it adds the sales from each month.
  
-4. Customer Quartiles** → Use `NTILE(4)`
+4. Customer Quartiles- Use `NTILE(4)`.
+
 `NTILE(4)`is a tool that helps the store split customers into four equal groups based on how much they spend. Group 1 has the lowest spenders and Group 4 has the highest spenders. This helps the store understand customers better and plan marketing. For example, if we have 8 customers who spend $10, $20, $30, $40, $50, $60, $70, and $80 , NTILE(4) will put the lowest spenders in Group 1 and the highest spenders in Group 4.
 
-5. 3-Month Moving Averages** → Use `AVG() OVER()`
+5. 3-Month Moving Averages- Use `AVG() OVER()`.
+
 `AVG() OVER()` is a tool that helps the store find the average sales over a certain time, such as three months. This is called a moving average. It looks at the current month and the months before it to see the average sales. This helps the store understand sales trends and plan better. For example,  The online makeup store has January sales of 10, February sales of 12, March sales of 15, and April sales of 20, the 3-month average for March will be (10 + 12 + 15) ÷ 3 = 12.33, and for April it will be (12 + 15 + 20) ÷ 3 = 15.67. This helps the store know if sales are increasing or decreasing.
 
- Database Schema.
+ DATABASE SCHEMA.
  
-In this category i am going to be showing how i was ables to create three tables using codes i wrote
-The first table was of customers
-* purpose ( Customer Info)
-* Key Columns ( Customer_id, name, region)
-* Example Row ( 1001, John Doe, Kigali)
-Below are the codes that helped me create the table of CUSTOMERS
+In this category i am going to be showing how i was ables to create three tables using codes i wrote;
+
+The first table was of customers;
+
+* purpose ( Customer Info).
+  
+* Key Columns ( Customer_id, name, region).
+  
+* Example Row ( 1001, John Doe, Kigali).
+  
+Below are the codes that helped me create the table of CUSTOMERS.
 
 CREATE TABLE customers (
+
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    
     name VARCHAR(100) NOT NULL,
+    
     region VARCHAR(50) NOT NULL
+    
 );
+
 ![CUSTOMER DETAILS](https://github.com/user-attachments/assets/ff9b6998-5a1d-4bbf-a66a-35628c2010ac)
 
 KEY TERMS USED EXPLAINED;
@@ -86,16 +103,22 @@ TABLE 2;
 
 PRODUCTS
 
-* purpose (Product Catalog )
+* purpose (Product Catalog ).
+  
 * Key Columns (Product_id(PK), name, category).
+  
 * Example Row ( 2001, coffee beans, beverages).
 
 Below are the codes for this table
 
 CREATE TABLE products (
+
     product_id INT PRIMARY KEY,
+    
     name VARCHAR(100) NOT NULL,
+    
     category VARCHAR(50) NOT NULL
+    
 );
 
 ![PRODUCT DETAILS](https://github.com/user-attachments/assets/66032ee8-d53f-432c-abb8-90457b793497)
@@ -115,21 +138,32 @@ TABLE 3
 
 TRANSCATIONS
 
-* purpose ( Sales Records)
+* purpose ( Sales Records).
+  
 * Key Columns ( transcation_id(PK), Customer_id(FK), Product_id(FK), sale_date, amount).
+  
 * Example Row (3001, 1001, 2001, 2024-01-15, 25000).
 
 Below are the codes for the creation of this table.
 
 CREATE TABLE transactions (
+
     transaction_id INT PRIMARY KEY,
+    
     customer_id INT,
+    
     product_id INT,
+    
     sale_date DATE NOT NULL,
+    
     amount DECIMAL(10,2) NOT NULL,
+    
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+    
     FOREIGN KEY (product_id) REFERENCES products(product_id)
+    
 );
+
 
 ![TRANSCATION DETAIL](https://github.com/user-attachments/assets/c508aa39-f25b-49da-9d55-50229b682c97)
 
@@ -296,10 +330,47 @@ These results happened because the queries were written correctly and matched th
 The store should add more customer and sales data. With more data, ranking will show top customers better, aggregates will give clearer results, navigation will show real growth, and distribution will group customers properly. This will help the store plan better and increase sales.
 
 
-Conclusion
-This project shows how PL/SQL window functions helps understand business data, improve sales, and make better marketing decisions for their enterprises.
+References & Integrity Statement.
 
----
+References
+
+1. Maven Analytics. (2025). Windows function implementation. YouTube. Retrieved September 29, 2025, from
+https://youtu.be/rIcB4zMYMas
+
+2. HostGator. (2025). Queries. YouTube. Retrieved September 29, 2025, from
+https://youtu.be/4c50g_RXPZo
+
+3. Business Analyst_the storyteller. (2025). Business context. YouTube. Retrieved September 29, 2025, from
+https://youtu.be/iKk_Lz3Gsss
+
+4. ness-intricity101. (2025). Database schema. YouTube. Retrieved September 29, 2025, from
+https://youtu.be/3BZz8R7mqu0
+
+5. Baeldung. (2024). Database schema & ER. Baeldung. Retrieved September 29, 2025, from
+https://www.baeldung.com/sql/entity-relationship-diagram-vs-database-schema
+
+6. Daniel | Tech & Data. (2025). EdrawMax tutorial. YouTube. Retrieved September 29, 2025, from
+https://youtu.be/6A7U_7Zncbs
+
+7. OpenAI. (2025). ChatGPT. Retrieved starting from September 25, 2025 to September 29, 2025, from:
+https://chat.openai.com/
+
+8. GitHub. (2025). How to open GitHub account. YouTube. Retrieved September 29, 2025, from
+https://youtu.be/r8jQ9hVA2qs
+
+9. GitHub. (2025). Creating repository, making it public, and the license used. YouTube. Retrieved September 29, 2025, from
+https://youtu.be/-RZ03WHqkaY
+
+10. DeepSeek. (2025). DeepSeek. Retrieved September 29, 2025, from
+https://api-docs.deepseek.com/
+
+11. Fraser Love. (2025). phpMyAdmin tutorial. YouTube. Retrieved September 29, 2025, from
+https://youtu.be/DwHxDlaOsyw
+
+Integrity Statement
+
+“All sources were properly cited. Implementations and analysis represent original work. No AIgenerated content was copied without attribution or adaptation. This work used different learning materials, such as video tutorials, online articles, and AI tools like ChatGPT and DeepSeek. All these sources are listed above to show where the information came from and to keep the work honest.”
+
 
 **Created by: TETA JULIET  
 **Date:09/27/2025
